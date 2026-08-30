@@ -1,0 +1,30 @@
+.admin-panel{display:grid;gap:16px}.admin-panel h2{font-family:'Source Serif 4','Manrope',Georgia,serif;font-size:30px;margin:0}.admin-panel form{display:grid;gap:13px}.admin-panel label{display:grid;gap:5px;font-size:12px;font-weight:700;color:#244234}.admin-panel select,.admin-panel input,.admin-panel textarea{width:100%;border:1px solid #d9d5c9;background:#fff;padding:10px;font:inherit;font-size:13px}.admin-panel textarea{min-height:76px;resize:vertical}.admin-panel .two-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}.admin-panel .admin-status{margin:0;color:#526059;font-size:12px}.admin-panel .admin-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.admin-panel .negative{color:#a34638}.admin-panel .positive{color:#287357}.record-list{padding:0;margin:0;list-style:none;max-height:42vh;overflow:auto}.record-list li{display:grid;grid-template-columns:1fr auto;gap:9px;padding:10px 0;border-bottom:1px solid #e9e4d9;font-size:12px}.record-list small{color:#69756f;display:block}.record-list b{white-space:nowrap}@media(max-width:480px){.admin-panel .two-columns{grid-template-columns:1fr}}
+
+/* --- Content admin list --- */
+.content-admin .admin-tabs{display:flex;gap:8px;margin-bottom:8px}.admin-tab{border:1px solid #d7d8d0;background:#fff;border-radius:50px;padding:6px 14px;font-size:11px;font-weight:700;color:#66736d}.admin-tab.active{background:var(--green);color:#fff;border-color:var(--green)}.content-manage-list{list-style:none;margin:0;padding:0;max-height:42vh;overflow:auto}.content-manage-list li{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid #e9e4d9;font-size:12px}.content-manage-list small{display:block;color:#69756f;margin-top:3px}.danger-link{color:#a34638!important}.checkbox-row{display:flex!important;align-items:center;gap:8px;font-weight:600}.checkbox-row input{width:auto!important}.personal-total{font-size:13px;margin:0 0 12px;color:#526059}.personal-total strong{font-size:16px}
+
+/* Phase 1 admin extras */
+.admin-panel .admin-form{display:grid;gap:13px}
+.admin-panel label{display:grid;gap:5px;font-size:12px;font-weight:700}
+.admin-panel select,.admin-panel input,.admin-panel textarea{width:100%;border:1px solid var(--line,#d9d5c9);background:var(--cream,#fff);color:var(--ink,#17251f);padding:10px;font:inherit;font-size:13px}
+.admin-panel textarea{min-height:76px;resize:vertical}
+.admin-panel .two-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.admin-panel .two-columns{grid-template-columns:1fr}}
+
+/* UI polish admin modal forms */
+.admin-panel{gap:18px}
+.admin-panel h2{letter-spacing:-.02em}
+.admin-panel select,.admin-panel input,.admin-panel textarea{
+  border-radius:8px;
+  transition:border-color .15s ease,box-shadow .15s ease;
+}
+.admin-panel select:focus,.admin-panel input:focus,.admin-panel textarea:focus{
+  outline:none;
+  border-color:var(--green,#164c39);
+  box-shadow:0 0 0 3px rgba(22,76,57,.2);
+}
+.admin-tab{
+  transition:background .15s ease,color .15s ease,border-color .15s ease;
+}
+.admin-tab:hover:not(.active){border-color:var(--green,#164c39);color:var(--green,#164c39)}
+.content-manage-list li,.record-list li{border-radius:6px}

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Cổng thông tin nội bộ lớp học - năm học 2026-2027" />
+    <title>Lớp 10 Tin | Nội bộ lớp học</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700;8..60,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <div class="top-line"></div>
+    <header class="site-header">
+      <a class="brand" href="#trang-chu" aria-label="Về trang chủ">
+        <img class="brand-logo" src="assets/logo-truong.png" width="48" height="48" alt="Logo Trường THPT Chuyên Lê Quý Đôn" />
+        <span><strong>LỚP 10 TIN</strong><small>THPT Chuyên Lê Quý Đôn · 2026–2027</small></span>
+      </a>
+      <button class="menu-button" aria-label="Mở menu" aria-expanded="false">☰</button>
+      <nav class="main-nav" aria-label="Điều hướng chính">
+        <a href="#trang-chu" class="active">Tổng quan</a>
+        <a href="#hoc-tap">Học tập</a>
+        <a href="#thi-dua">Thi đua</a>
+        <a href="#thong-bao">Thông báo</a>
+        <a href="#thanh-vien">Thành viên</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Đổi giao diện sáng tối" title="Sáng / Tối">
+        <span class="theme-toggle-icon">
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </span>
+      </button>
+      <div class="header-auth" id="headerAuth">
+        <button class="admin-button" id="adminButton">Khu quản trị <span>→</span></button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="trang-chu">
+        <div class="hero-copy">
+          <p class="eyebrow">CỔNG THÔNG TIN NỘI BỘ</p>
+          <h1>Học tập tử tế.<br /><em>Cùng nhau tiến bộ.</em></h1>
+          <p class="hero-text">Theo dõi thi đua và cập nhật dặn dò học tập trong tuần — kiểm tra, bài tập, lịch thi — để phụ huynh và học sinh cùng nắm.</p>
+        </div>
+        <aside class="week-card" aria-label="Điểm thi đua tuần" id="weekCard">
+          <p class="week-label" id="weekLabel">THI ĐUA TUẦN</p>
+          <div class="score-line"><span>Điểm tập thể</span><strong id="weekScore">—</strong></div>
+          <div class="score-track"><span id="weekTrack" style="width:0%"></span></div>
+          <div class="score-meta"><span id="weekRange">—</span><span class="up" id="weekStatus">Chưa chốt</span></div>
+          <hr />
+          <p class="small-copy" id="weekNote">Điểm tuần được tổng hợp sau giờ sinh hoạt cuối tuần.</p>
+        </aside>
+      </section>
+
+      <section class="quick-grid" aria-label="Lối tắt">
+        <a href="#hoc-tap"><span class="quick-icon rose">01</span><span><b>Thông báo học tập</b><small id="quickStudyCount">Dặn dò · KT · BTVN</small></span><i>→</i></a>
+        <a href="#thi-dua"><span class="quick-icon amber">02</span><span><b>Thi đua tuần</b><small>Điểm · xếp hạng</small></span><i>→</i></a>
+        <a href="#thong-bao"><span class="quick-icon blue">03</span><span><b>Thông báo lớp</b><small id="quickAnnCount">Đang cập nhật</small></span><i>→</i></a>
+      </section>
+
+
+
+      <section class="content-section study-section" id="hoc-tap">
+        <div class="section-heading study-heading">
+          <div>
+            <p class="eyebrow study-eyebrow">DẶN DÒ · QUAN TRỌNG</p>
+            <h2>Thông báo học tập</h2>
+          </div>
+          <p class="section-hint" id="studyCount">Kiểm tra, bài tập, lịch thi — ai cũng xem được.</p>
+        </div>
+        <div class="study-layout">
+          <div class="study-list" id="studyList" role="list">
+            <p class="empty-state">Đang tải thông báo học tập…</p>
+          </div>
+          <aside class="study-aside">
+            <p class="card-kicker">DÀNH CHO PHỤ HUYNH &amp; HỌC SINH</p>
+            <h3>Tuần này học gì?</h3>
+            <p>GVCN đăng dặn dò và chọn <b>Ngày cần nhớ</b> (ngày KT / hạn nộp). Đúng ngày đó mục tự gắn nhãn <b>Hôm nay</b> / <b>Ngày mai</b> để học sinh nhớ học. Ai cũng xem được, không cần đăng nhập.</p>
+            <a class="button button-primary" href="#thi-dua">Xem thi đua tuần <span>→</span></a>
+          </aside>
+        </div>
+      </section>
+
+      <section class="content-section competition-section" id="thi-dua">
+        <div class="section-heading light"><div><p class="eyebrow">THEO DÕI MINH BẠCH</p><h2>Thi đua</h2></div><p>Điểm cá nhân và tập thể được ghi nhận theo tuần.</p></div>
+        <div class="competition-layout">
+          <div class="ranking-card">
+            <div class="card-top"><div><p class="card-kicker">BẢNG ĐIỂM CÁ NHÂN · GỐC 100</p><h3>Xếp hạng tuần này</h3></div><button class="link-button" id="showAllScores">Xem tất cả</button></div>
+            <div class="ranking" id="rankingList">
+              <p class="privacy-note">Đang tải bảng xếp hạng…</p>
+            </div>
+            <p class="privacy-note">Bấm <b>Xem tất cả</b> để tìm tên, xem thứ hạng, điểm cộng/trừ và chi tiết vi phạm trong tuần. Chỉ admin mới nhập điểm.</p>
+          </div>
+          <div class="formula-card lookup-card">
+            <p class="card-kicker">TRA CỨU</p><h3>Điểm cá nhân theo tên</h3>
+            <form class="lookup-form" id="scoreLookupForm">
+              <input type="text" id="scoreLookupInput" list="scoreLookupNames" placeholder="Nhập họ tên học sinh…" autocomplete="off" aria-label="Nhập họ tên học sinh để tra cứu điểm" />
+              <datalist id="scoreLookupNames"></datalist>
+              <button type="submit" class="button button-primary">Tra cứu</button>
+            </form>
+            <div class="lookup-result" id="scoreLookupResult">
+              <p class="privacy-note">Nhập họ tên để xem điểm tuần này (gốc 100 + cộng − trừ) và chi tiết từng mục cộng/trừ.</p>
+            </div>
+          </div>
+        </div>
+        <details class="score-rules" id="quy-dinh-diem">
+          <summary class="score-rules-summary">
+            <div>
+              <p class="card-kicker">QUY ĐỊNH THANG ĐIỂM</p>
+              <h3>Tra cứu nhanh <span class="score-rules-hint">Nhấn để mở / đóng</span></h3>
+            </div>
+            <span class="score-rules-chevron" aria-hidden="true">+</span>
+          </summary>
+          <div class="score-rules-body">
+            <div class="score-rule-head">
+              <input id="ruleSearch" type="search" placeholder="Tìm lỗi, hành vi hoặc mức điểm..." aria-label="Tìm quy định thi đua" />
+            </div>
+            <div class="filters"><button class="filter active" data-filter="all">Tất cả</button><button class="filter" data-filter="tru">Điểm trừ</button><button class="filter" data-filter="cong">Điểm cộng</button></div>
+            <div class="score-table" id="scoreTable">
+              <div class="score-row" data-type="tru"><span class="tag minus">Trừ</span><p>Vắng không phép</p><b>−3</b></div>
+              <div class="score-row" data-type="tru"><span class="tag minus">Trừ</span><p>Đi học trễ hoặc vào tiết trễ</p><b>−2</b></div>
+              <div class="score-row" data-type="tru"><span class="tag minus">Trừ</span><p>Không đúng quy định đồng phục/phù hiệu</p><b>−2</b></div>
+              <div class="score-row" data-type="tru"><span class="tag minus">Trừ</span><p>Sử dụng điện thoại, tai nghe trong giờ học</p><b>−6</b></div>
+              <div class="score-row" data-type="cong"><span class="tag plus">Cộng</span><p>Tham gia, hỗ trợ hoạt động theo phân công</p><b>+ theo quy định</b></div>
+              <div class="score-row" data-type="cong"><span class="tag plus">Cộng</span><p>Đạt giải hội thi/cuộc thi các cấp</p><b>+ theo cấp giải</b></div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <section class="content-section news-section" id="thong-bao">
+        <div class="section-heading">
+          <div><p class="eyebrow">CẬP NHẬT CỦA LỚP</p><h2>Thông báo & lịch</h2></div>
+          <p class="section-hint" id="announcementCount">Đang tải…</p>
+        </div>
+        <div class="news-layout">
+          <div class="announcement-main">
+            <article class="featured-news" id="featuredAnnouncement">
+              <p class="loading-inline">Đang tải thông báo…</p>
+            </article>
+            <div class="announcement-list-head">
+              <p class="card-kicker">THÔNG BÁO TRƯỚC ĐÓ</p>
+            </div>
+            <div class="announcement-list" id="announcementList" role="list">
+              <p class="empty-state">Đang tải danh sách…</p>
+            </div>
+          </div>
+          <aside class="events-aside" id="lich">
+            <p class="card-kicker">LỊCH SẮP TỚI</p>
+            <div class="events-stack" id="eventsStack">
+              <p class="empty-state">Đang tải lịch…</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+
+      <section class="content-section rules-section rules-secondary" id="noi-quy">
+        <div class="section-heading">
+          <div><p class="eyebrow">TRA CỨU KHI CẦN</p><h2>Nội quy học sinh</h2></div>
+          <p>Phiên bản dự thảo năm học 2026 - 2027</p>
+        </div>
+        <div class="rule-tabs" role="tablist">
+          <button class="tab active" data-panel="rules" role="tab">Nội quy</button>
+          <button class="tab" data-panel="changes" role="tab">Điểm mới 2026 - 2027 <span>5</span></button>
+        </div>
+        <div class="panel active" id="rules">
+          <div class="accordion-list">
+            <details open><summary><span>A</span><div><b>Quy định chung</b><small>3 nội dung nền tảng</small></div><i>+</i></summary><div class="accordion-content"><ol><li>Chấp hành pháp luật, các quy định của ngành và nội quy nhà trường.</li><li>Rèn luyện đạo đức, nỗ lực học tập, tích cực tham gia hoạt động ngoại khóa.</li><li>Có trách nhiệm trong bồi dưỡng, thi học sinh giỏi và hoạt động cộng đồng.</li></ol></div></details>
+            <details><summary><span>I</span><div><b>Đến trường</b><small>Trang phục · giờ giấc · tác phong</small></div><i>+</i></summary><div class="accordion-content"><p>Mặc đúng trang phục; có mặt đúng giờ; phụ huynh xin nghỉ qua hệ thống quản lý học sinh. Không sử dụng thiết bị điện tử trong giờ nếu chưa được giáo viên cho phép.</p></div></details>
+            <details><summary><span>II</span><div><b>Trong lớp</b><small>Học tập · trật tự · vệ sinh</small></div><i>+</i></summary><div class="accordion-content"><p>Tôn trọng giáo viên và bạn học, giữ gìn không gian học tập; không ăn uống vụng trong giờ học và thực hiện nghiêm các yêu cầu học tập.</p></div></details>
+            <details><summary><span>III</span><div><b>Hoạt động ngoại khóa</b><small>Trách nhiệm · an toàn · hình ảnh lớp</small></div><i>+</i></summary><div class="accordion-content"><p>Tham gia với tinh thần tự giác, văn minh; tuân thủ phân công, bảo đảm an toàn và gìn giữ hình ảnh của lớp, của trường.</p></div></details>
+            <details><summary><span>IV</span><div><b>Quy tắc mạng xã hội</b><small>Ứng xử số tích cực</small></div><i>+</i></summary><div class="accordion-content"><p>Không xây dựng, theo dõi, cổ vũ hoặc tuyên truyền nội dung phản động, bạo lực, đồi trụy hay không phù hợp với lứa tuổi học sinh.</p></div></details>
+          </div>
+        </div>
+        <div class="panel" id="changes">
+          <div class="changes-grid">
+            <article><b>01</b><h3>Xin phép nghỉ học trực tuyến</h3><p>Phụ huynh thực hiện qua hệ thống quản lý học sinh và GVCN phê duyệt theo quy định.</p></article>
+            <article><b>02</b><h3>Ăn uống trong giờ học</h3><p>Làm rõ quy định: không ăn uống vụng trong giờ học, phù hợp nhu cầu thực tế.</p></article>
+            <article><b>03</b><h3>Thiết bị điện tử</h3><p>Được sử dụng khi phục vụ hoạt động học tập theo yêu cầu của giáo viên.</p></article>
+            <article><b>04</b><h3>Sổ đầu bài điện tử</h3><p>Bãi bỏ quy trình quản lý sổ giấy, phù hợp cách thức quản lý hiện hành.</p></article>
+            <article><b>05</b><h3>Ứng xử trên mạng</h3><p>Diễn đạt rõ hơn các hành vi bị nghiêm cấm, tăng tính dễ áp dụng.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="members-strip" id="thanh-vien">
+        <div><p class="eyebrow">CỘNG ĐỒNG LỚP</p><h2>32 thành viên,<br /><em>một tập thể.</em></h2></div>
+        <div class="member-info"><p>Danh sách lớp chỉ hiển thị thông tin tối thiểu. CCCD, ngày sinh, nơi sinh và hồ sơ riêng tư không được đưa lên trang công khai.</p><button class="button button-primary" id="membersButton">Xem danh sách lớp <span>→</span></button></div>
+      </section>
+    </main>
+
+    <footer id="siteFooter">
+      <span class="footer-brand">
+        <img src="assets/logo-truong.png" width="28" height="28" alt="" />
+        © 2026–2027 · Lớp 10 Tin
+      </span>
+      <span>Trường THPT Chuyên Lê Quý Đôn — BRVT</span>
+      <a href="#noi-quy">Nội quy</a>
+      <a class="footer-discord" href="https://discord.gg/Zhyk3NuSkg" target="_blank" rel="noopener" aria-label="đến với chuyên tin zách">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.076.076 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        chuyên tin zách
+      </a>
+      <a href="#trang-chu">Về đầu trang ↑</a>
+    </footer>
+
+    <!-- Khu quản trị đầy đủ (Phase 1) -->
+    <section class="admin-app" id="adminApp" hidden aria-label="Khu quản trị">
+      <div class="admin-shell">
+        <header class="admin-top">
+          <div class="admin-brand-block">
+            <img class="admin-logo" src="assets/logo-truong.png" width="40" height="40" alt="" />
+            <div>
+              <p class="modal-kicker">KHU QUẢN TRỊ · LÊ QUÝ ĐÔN</p>
+              <h1 id="adminTitle">Quản lý lớp</h1>
+            </div>
+          </div>
+          <div class="admin-top-actions">
+            <button type="button" class="theme-toggle" id="themeToggleAdmin" aria-label="Đổi giao diện sáng tối">
+              <span class="theme-toggle-icon">
+                <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+              </span>
+            </button>
+            <button type="button" class="button button-secondary" id="exitAdmin">← Về trang lớp</button>
+            <button type="button" class="link-button" id="adminLogout">Đăng xuất</button>
+          </div>
+        </header>
+        <nav class="admin-nav" role="tablist" aria-label="Menu quản trị">
+          <button type="button" class="admin-nav-btn active" data-admin-tab="scores">Nhập điểm</button>
+          <button type="button" class="admin-nav-btn" data-admin-tab="journal">Nhật ký</button>
+          <button type="button" class="admin-nav-btn" data-admin-tab="weekly">Chốt tuần</button>
+          <button type="button" class="admin-nav-btn" data-admin-tab="report">Báo cáo</button>
+          <button type="button" class="admin-nav-btn" data-admin-tab="events">Lịch</button>
+          <button type="button" class="admin-nav-btn" data-admin-tab="content">Nội dung</button>
+        </nav>
+        <div class="admin-body">
+          <div class="admin-pane active" id="pane-scores" data-pane="scores"></div>
+          <div class="admin-pane" id="pane-journal" data-pane="journal" hidden></div>
+          <div class="admin-pane" id="pane-weekly" data-pane="weekly" hidden></div>
+          <div class="admin-pane" id="pane-report" data-pane="report" hidden></div>
+          <div class="admin-pane" id="pane-events" data-pane="events" hidden></div>
+          <div class="admin-pane" id="pane-content" data-pane="content" hidden></div>
+        </div>
+      </div>
+    </section>
+
+    <dialog id="modal"><button class="close-modal" aria-label="Đóng">×</button><div id="modalContent"></div></dialog>
+    <script src="du-lieu-hoc-sinh.js"></script>
+    <script src="quy-dinh-thi-dua.js"></script>
+    <script src="supabase-config.js"></script>
+    <script type="module" src="supabase-client.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
