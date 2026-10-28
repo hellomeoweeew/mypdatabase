@@ -23,7 +23,7 @@ Mọi dữ liệu nằm trên **Supabase** (database online miễn phí). Không
 ### Bước 2 — Tạo bảng (chạy `setup.sql`)
 1. Menu trái chọn **SQL Editor** → **New query**.
 2. Mở file `setup.sql`, **copy toàn bộ**, dán vào ô, bấm **Run**.
-3. Thấy *Success. No rows returned* là xong. Chạy lại lần nữa cũng không sao.
+3. Phía dưới hiện bảng **MÃ MỜI** (dạng `89QV-75E7-SA57-WFLJ`) → **copy lại mã này**, dùng để tạo tài khoản đầu tiên. Chạy lại file lần nữa cũng không sao (không tạo thêm mã, không mất dữ liệu).
 
 File này tạo:
 - `cabinets` (tủ), `drawers` (ngăn), `items` (hồ sơ), `journal_entries` (nhật ký)
@@ -53,7 +53,7 @@ Vào **Authentication → Sign In / Providers → Email**:
 - Muốn tạo tài khoản dùng được ngay: **tắt** *Confirm email*.
 - Muốn bắt xác nhận qua email: giữ bật, và vào **Authentication → URL Configuration** điền **Site URL** = địa chỉ web của bạn (bước 5), để link trong email mở đúng trang.
 
-Muốn chỉ mình bạn dùng (không cho người lạ đăng ký): sau khi tạo xong tài khoản của bạn, vào **Authentication → Sign In / Providers** tắt **Allow new users to sign up**.
+Web đã khoá bằng **mã mời** (xem mục "Mã mời" bên dưới): người lạ không có mã thì không tạo được tài khoản.
 
 ### Bước 5 — Mở web
 - **Thử nhanh trên máy:** mở `index.html` bằng Chrome/Edge là chạy được (cần có mạng).
@@ -62,6 +62,34 @@ Muốn chỉ mình bạn dùng (không cho người lạ đăng ký): sau khi t�
   - **Netlify Drop:** vào https://app.netlify.com/drop, kéo thả cả thư mục vào là có link.
 
 Sau đó: mở web → **Tạo tài khoản** → đăng nhập → lần đầu web tự tạo sẵn "Tủ chung" có 2 ngăn mẫu.
+
+---
+
+## Mã mời (chỉ người có mã mới tạo được tài khoản)
+
+Mã được kiểm tra **ngay trong database Supabase**, nên không ai lách được bằng cách sửa web hay gọi thẳng vào Supabase.
+Danh sách mã nằm trong vùng riêng `kho_admin`, web không đọc được — chỉ bạn xem trong **SQL Editor**.
+
+Khi đăng ký: chọn tab **Có mã mời** → nhập họ tên, mã mời, email, mật khẩu. Gõ chữ thường hay thiếu dấu gạch đều được.
+
+Các lệnh quản lý (dán vào **SQL Editor → Run**):
+
+| Muốn làm gì | Lệnh |
+|---|---|
+| Xem các mã | `select * from kho_admin.invite_codes;` |
+| Tạo mã không giới hạn | `select kho_admin.new_invite('Tổ Sinh');` |
+| Tạo mã dùng 5 lần, hết hạn sau 7 ngày | `select kho_admin.new_invite('Lớp 12A1', 5, 7);` |
+| Tạo mã chỉ dùng 1 lần | `select kho_admin.new_invite('Cô Hoa', 1);` |
+| Khoá 1 mã (thay `MÃ`) | `update kho_admin.invite_codes set active = false where code = 'MÃ';` |
+| Xem ai đã đăng ký bằng mã nào | `select u.email, u.used_at, c.code, c.label from kho_admin.invite_uses u left join kho_admin.invite_codes c on c.id = u.code_id order by u.used_at desc;` |
+| Tạm tắt yêu cầu mã | `update kho_admin.settings set require_invite = false;` |
+| Bật lại | `update kho_admin.settings set require_invite = true;` |
+
+Lưu ý:
+- Tài khoản tạo **trước** khi chạy `setup.sql` vẫn đăng nhập bình thường.
+- Nút **Add user** trong dashboard Supabase cũng bị chặn khi bật mã mời → tạm tắt yêu cầu mã, tạo xong thì bật lại.
+- Nếu dùng chung project với web cũ thì web cũ cũng phải có mã mới đăng ký được (đăng nhập không ảnh hưởng).
+- Không muốn ai đăng ký thêm nữa: khoá hết mã, hoặc vào **Authentication → Sign In / Providers** tắt **Allow new users to sign up**.
 
 ---
 
@@ -89,4 +117,5 @@ Sau đó: mở web → **Tạo tài khoản** → đăng nhập → lần đầu
 | "Chưa có kho file" | Chạy lại `setup.sql` |
 | "Email chưa xác nhận" | Mở email xác nhận, hoặc tắt *Confirm email* (bước 4) |
 | Đăng nhập được nhưng không thấy dữ liệu cũ | Đúng thiết kế: mỗi tài khoản có kho riêng |
+| "Mã mời không đúng, đã hết hạn hoặc hết lượt dùng" | Kiểm tra lại mã bằng `select * from kho_admin.invite_codes;` (cột `active`, `used_count`, `expires_at`) |
 | Project bị "paused" | Gói miễn phí tạm dừng khi 7 ngày không dùng — vào dashboard bấm **Restore** |

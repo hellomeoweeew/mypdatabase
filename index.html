@@ -31,12 +31,15 @@
 
       <div class="seg" role="tablist">
         <button type="button" class="seg-btn on" data-mode="login">Đăng nhập</button>
-        <button type="button" class="seg-btn" data-mode="signup">Tạo tài khoản</button>
+        <button type="button" class="seg-btn" data-mode="signup">Có mã mời</button>
       </div>
 
       <form id="authForm" class="form" autocomplete="on">
         <label class="f signup-only" hidden>Họ và tên
           <input name="full_name" type="text" autocomplete="name" placeholder="Nguyễn Văn A" />
+        </label>
+        <label class="f signup-only" hidden>Mã mời (do quản trị viên cấp)
+          <input name="invite_code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" placeholder="XXXX-XXXX-XXXX-XXXX" style="font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase" />
         </label>
         <label class="f">Email
           <input name="email" type="email" required autocomplete="email" placeholder="ban@gmail.com" />

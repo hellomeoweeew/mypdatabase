@@ -129,6 +129,7 @@ $$('.seg-btn').forEach((b) => b.addEventListener('click', () => {
   $$('.signup-only').forEach((x) => { x.hidden = authMode !== 'signup'; });
   $('#authBtnText').textContent = authMode === 'signup' ? 'TẠO TÀI KHOẢN' : 'MỞ KHO';
   $('#authForm').password.autocomplete = authMode === 'signup' ? 'new-password' : 'current-password';
+  $('#authForm').invite_code.required = authMode === 'signup';
   $('#authMsg').textContent = '';
 }));
 
@@ -147,7 +148,9 @@ $('#authForm').addEventListener('submit', async (e) => {
       if (error) throw error;
       msg.className = 'msg ok'; msg.textContent = '> truy cập được chấp nhận';
     } else {
-      const { data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name: f.full_name.value.trim() }, emailRedirectTo: location.href.split('#')[0] } });
+      const invite = f.invite_code.value.trim().toUpperCase();
+      if (!invite) throw new Error('Cần nhập mã mời.');
+      const { data, error } = await sb.auth.signUp({ email, password, options: { data: { full_name: f.full_name.value.trim(), invite_code: invite }, emailRedirectTo: location.href.split('#')[0] } });
       if (error) throw error;
       msg.className = 'msg ok';
       msg.textContent = data.session ? '> tạo tài khoản xong' : '> đã gửi email xác nhận — mở hộp thư rồi bấm link, sau đó quay lại đăng nhập.';
@@ -157,6 +160,7 @@ $('#authForm').addEventListener('submit', async (e) => {
     if (/Invalid login/i.test(m)) m = 'Sai email hoặc mật khẩu.';
     if (/Email not confirmed/i.test(m)) m = 'Email chưa xác nhận — kiểm tra hộp thư.';
     if (/already registered/i.test(m)) m = 'Email này đã có tài khoản.';
+    if (/Database error saving new user|INVALID_INVITE_CODE/i.test(m)) m = 'Mã mời không đúng, đã hết hạn hoặc hết lượt dùng.';
     msg.className = 'msg'; msg.textContent = '> ' + m;
   } finally { btn.disabled = false; }
 });
