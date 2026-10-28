@@ -6,6 +6,6 @@
   KHÔNG dán secret key / service_role key vào đây.
 */
 window.SUPABASE_CONFIG = {
-  url: 'https://ygzydssqklooehmkqkof.supabase.co/rest/v1/',
+  url: 'https://ygzydssqklooehmkqkof.supabase.co',
   publishableKey: 'sb_publishable_LV0LGYv_5iPLlC1of3MefQ_KPWifWrl'
 };
