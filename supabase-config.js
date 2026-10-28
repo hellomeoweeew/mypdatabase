@@ -7,5 +7,5 @@
 */
 window.SUPABASE_CONFIG = {
   url: 'https://ovulzpqvhxcotukbpvhs.supabase.co',
-  publishableKey: 'sb_publishable_wI-sdZfF9knwVC6dx94XhA_HHqpmxE0'
+  publishableKey: 'sb_publishable_LV0LGYv_5iPLlC1of3MefQ_KPWifWrl'
 };
