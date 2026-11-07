@@ -2,184 +2,133 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chọn chỗ</title>
-  <meta name="robots" content="noindex" />
-  <meta name="theme-color" content="#2563eb" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#05090f" />
+  <title>Kho Dữ Liệu Di Động</title>
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="seats.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap&subset=vietnamese" rel="stylesheet" />
+  <link rel="stylesheet" href="app.css" />
 </head>
 <body>
-  <div class="wrap">
-    <nav class="topnav">
-      <button class="btn sm ghost" id="backBtn" type="button" hidden>← Về đầu</button>
-    </nav>
-    <div class="offline" id="offline" hidden>Mất kết nối mạng — sẽ tự cập nhật khi có mạng.</div>
+  <div class="fx-grid" aria-hidden="true"></div>
+  <div class="fx-scan" aria-hidden="true"></div>
 
-    <!-- ========== TRANG ĐẦU ========== -->
-    <section class="view" id="v-home" hidden>
-      <header class="hero">
-        <img src="icon.svg" alt="" width="56" height="56" />
-        <div><h1>Chọn chỗ</h1><p class="note">Tham gia bằng mã phòng, hoặc tạo phòng mới.</p></div>
-      </header>
+  <!-- ============ MÀN HÌNH ĐĂNG NHẬP ============ -->
+  <section id="gate" class="gate" hidden>
+    <div class="vault">
+      <div class="vault-door left"></div>
+      <div class="vault-door right"></div>
+      <div class="vault-ring" aria-hidden="true"><span></span></div>
+    </div>
 
-      <div class="two">
-        <form class="card" id="joinForm">
-          <h2>Tham gia</h2>
-          <p class="note">Nhập mã phòng host gửi cho bạn.</p>
-          <label class="f">Mã phòng
-            <input name="code" class="code-input" required autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="11" placeholder="XXXX-XXXX" inputmode="text" />
-          </label>
-          <button class="btn primary wide">Vào phòng</button>
-          <p class="msg" id="joinMsg"></p>
-        </form>
+    <div class="gate-panel hud">
+      <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+      <p class="kicker">ARCHIVE // KHO LƯU TRỮ CÁ NHÂN</p>
+      <h1 class="gate-title">KHO DỮ LIỆU<br /><span>DI ĐỘNG</span></h1>
+      <pre class="boot" id="bootLog" aria-live="polite"></pre>
 
-        <div class="card">
-          <h2>Tạo phòng (host)</h2>
-          <p class="note">Tạo sơ đồ ghế, nhận mã gửi cho mọi người. Kết thúc thì danh sách được tải về máy bạn và xoá khỏi máy chủ.</p>
-          <button class="btn wide" id="newRoomBtn" type="button">+ Tạo phòng mới</button>
-        </div>
+      <div class="seg" role="tablist">
+        <button type="button" class="seg-btn on" data-mode="login">Đăng nhập</button>
+        <button type="button" class="seg-btn" data-mode="signup">Có mã mời</button>
       </div>
 
-      <div class="card" id="hostedBox" hidden>
-        <h2>Phòng bạn đang host</h2>
-        <div class="list" id="hostedList"></div>
-      </div>
-      <div class="card" id="joinedBox" hidden>
-        <h2>Phòng đã tham gia</h2>
-        <div class="list" id="joinedList"></div>
-      </div>
-      <div class="card" id="historyBox" hidden>
-        <h2>Đã kết thúc · lưu trên máy này</h2>
-        <div class="list" id="historyList"></div>
-      </div>
-    </section>
-
-    <!-- ========== TẠO PHÒNG ========== -->
-    <section class="view" id="v-create" hidden>
-      <form class="card" id="createForm">
-        <h2>Tạo phòng mới</h2>
-        <label class="f">Tên buổi<input name="title" maxlength="120" required placeholder="VD: Lễ tri ân 12A1" /></label>
-        <label class="f">Ghi chú (giờ, địa điểm…)<textarea name="note" rows="2" maxlength="1000" placeholder="Hội trường B · 8h00 thứ Bảy"></textarea></label>
-        <div class="f">Bố trí sơ đồ
-          <div id="createLayout"></div>
-        </div>
-        <label class="f">Thời gian host
-          <select name="minutes">
-            <option value="30">30 phút</option>
-            <option value="60" selected>1 giờ</option>
-            <option value="120">2 giờ</option>
-            <option value="240">4 giờ</option>
-            <option value="720">12 giờ</option>
-            <option value="1440">1 ngày</option>
-            <option value="4320">3 ngày</option>
-            <option value="10080">7 ngày</option>
-          </select>
+      <form id="authForm" class="form" autocomplete="on">
+        <label class="f signup-only" hidden>Họ và tên
+          <input name="full_name" type="text" autocomplete="name" placeholder="Nguyễn Văn A" />
         </label>
-        <label class="f check"><input type="checkbox" name="allow_change" checked /> Cho người tham gia tự đổi / huỷ chỗ</label>
-        <label class="f check"><input type="checkbox" name="show_names" /> Cho mọi người thấy tên ai ngồi đâu</label>
-        <button class="btn primary wide">Tạo phòng</button>
-        <p class="msg" id="createMsg"></p>
+        <label class="f signup-only" hidden>Mã mời (do quản trị viên cấp)
+          <input name="invite_code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="24" placeholder="XXXX-XXXX-XXXX-XXXX" style="font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase" />
+        </label>
+        <label class="f">Email
+          <input name="email" type="email" required autocomplete="email" placeholder="ban@gmail.com" />
+        </label>
+        <label class="f">Mật khẩu
+          <input name="password" type="password" required minlength="6" autocomplete="current-password" placeholder="••••••••" />
+        </label>
+        <button class="btn primary wide" type="submit"><span id="authBtnText">MỞ KHO</span></button>
+        <button class="link-btn" type="button" id="forgotBtn">Quên mật khẩu?</button>
+        <p class="msg" id="authMsg" role="status"></p>
       </form>
-    </section>
+    </div>
+  </section>
 
-    <!-- ========== HOST ========== -->
-    <section class="view" id="v-host" hidden>
-      <div class="card host-head">
-        <div class="grow">
-          <p class="kicker">BẠN ĐANG HOST</p>
-          <h1 id="hTitle">…</h1>
-          <p class="note" id="hNote"></p>
-        </div>
-        <div class="code-box">
-          <span class="kicker">MÃ PHÒNG</span>
-          <b id="hCode">----</b>
-          <div class="acts tight">
-            <button class="btn sm" id="hCopy" type="button">Copy mã</button>
-            <button class="btn sm" id="hShare" type="button">Gửi link</button>
-            <button class="btn sm" id="hQr" type="button">QR</button>
-          </div>
-        </div>
+  <!-- ============ PHÒNG LƯU TRỮ ============ -->
+  <section id="room" class="room" hidden>
+    <header class="hudbar">
+      <div class="brand">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect x="5" y="3" width="22" height="26" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="9" y="8" width="14" height="5" fill="currentColor" opacity=".35"/><rect x="9" y="17" width="14" height="5" fill="currentColor" opacity=".35"/><rect x="13" y="10" width="6" height="1.6" fill="currentColor"/><rect x="13" y="19" width="6" height="1.6" fill="currentColor"/></svg>
+        <div><b>ARCHIVE</b><small>Kho dữ liệu di động</small></div>
       </div>
-
-      <div class="card">
-        <div class="bar">
-          <span class="pill" id="hStatus"></span>
-          <span class="timer" id="hTimer">--:--</span>
-          <button class="btn sm" id="hAdd" type="button">+30 phút</button>
-          <span class="stats" id="hStats"></span>
-          <span class="grow"></span>
-          <button class="btn sm" id="hToggle" type="button">Tạm khoá</button>
-          <button class="btn sm" id="hLayout" type="button">Bố trí</button>
-          <button class="btn sm" id="hSettings" type="button">Cài đặt</button>
-          <div class="zoom"><button class="btn sm" id="hOut" aria-label="Thu nhỏ">−</button><button class="btn sm" id="hIn" aria-label="Phóng to">+</button></div>
-        </div>
-        <p class="note small">Bấm nhanh: ghế trống → <b>lối đi</b> · lối đi → ghế · ghế có người → xem tên / <b>giải phóng</b>. Muốn vẽ khối ghi chú, đổi kích thước: bấm <b>Bố trí</b>.</p>
-        <div class="scroll" id="hScroll"><div class="grid" id="hGrid"></div></div>
+      <div class="hud-mid">
+        <span class="led" id="netLed"></span><span id="netText">ĐANG KẾT NỐI</span>
+        <span class="sep">|</span><span id="clock">--:--:--</span>
       </div>
-
-      <div class="card">
-        <div class="bar"><h2 style="margin:0">Danh sách</h2><span class="grow"></span><input class="search" id="hQ" placeholder="Tìm tên…" /></div>
-        <div class="list-wrap"><table><thead><tr><th>Ghế</th><th>Họ tên</th><th>Lúc chọn</th><th></th></tr></thead><tbody id="hList"></tbody></table></div>
+      <div class="hud-user">
+        <button class="user-chip" id="userChip" type="button" title="Tài khoản">
+          <span class="avatar" id="userAvatar">?</span>
+          <span><b id="userName">...</b><small id="userRole">...</small></span>
+        </button>
+        <button class="btn ghost sm" id="logoutBtn" type="button">Khoá kho</button>
       </div>
+    </header>
 
-      <div class="card end-card">
+    <main class="floor">
+      <div class="floor-head">
         <div>
-          <b>Kết thúc phòng</b>
-          <p class="note small">Tải danh sách về máy này (file .csv mở bằng Excel), rồi <b>xoá phòng khỏi máy chủ</b>. Hết giờ app cũng tự làm việc này.</p>
+          <p class="kicker">TẦNG 01 · PHÒNG LƯU TRỮ CHÍNH</p>
+          <h2>Chọn ngăn tủ để mở hồ sơ</h2>
         </div>
-        <button class="btn danger" id="hEnd" type="button">Kết thúc &amp; tải về</button>
+        <div class="stats" id="stats"></div>
       </div>
-    </section>
+      <div class="floor-tools">
+        <form id="searchForm" class="search" role="search">
+          <span aria-hidden="true">⌕</span>
+          <input id="searchInput" type="search" placeholder="Tìm trong toàn bộ kho…" autocomplete="off" />
+        </form>
+        <button class="btn primary" id="newCabinetBtn" type="button">+ Tủ mới</button>
+      </div>
+      <div class="cabinets" id="cabinets"></div>
+      <p class="floor-foot">Dữ liệu đọc trực tiếp từ Supabase · chỉ tài khoản của bạn mới xem được.</p>
+    </main>
+  </section>
 
-    <!-- ========== GUEST: NHẬP TÊN ========== -->
-    <section class="view" id="v-name" hidden>
-      <form class="card narrow" id="nameForm">
-        <p class="kicker" id="nCode">PHÒNG</p>
-        <h2 id="nTitle">…</h2>
-        <p class="note" id="nNote"></p>
-        <label class="f">Họ và tên của bạn
-          <input name="name" required minlength="2" maxlength="60" autocomplete="name" placeholder="Nguyễn Văn A" />
-        </label>
-        <button class="btn primary wide">Tiếp tục chọn ghế →</button>
-      </form>
-    </section>
-
-    <!-- ========== GUEST: CHỌN GHẾ ========== -->
-    <section class="view" id="v-guest" hidden>
-      <header class="top">
-        <p class="kicker" id="gCode">PHÒNG</p>
-        <h1 id="gTitle">…</h1>
-        <p class="note" id="gNote"></p>
+  <!-- ============ NGĂN KÉO ĐANG MỞ ============ -->
+  <div id="viewer" class="viewer" hidden>
+    <div class="viewer-panel hud" role="dialog" aria-modal="true" aria-labelledby="viewerTitle">
+      <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+      <header class="viewer-head">
+        <div>
+          <p class="kicker" id="viewerCode">NGĂN --</p>
+          <h2 id="viewerTitle">...</h2>
+        </div>
+        <div class="viewer-actions" id="viewerActions"></div>
+        <button class="btn ghost sm" id="viewerClose" type="button">Đóng ngăn ✕</button>
       </header>
-      <div class="banner" id="gMine" hidden></div>
-      <div class="card">
-        <div class="bar">
-          <span class="pill" id="gStatus">Đang tải…</span>
-          <span class="timer" id="gTimer"></span>
-          <span class="stats" id="gStats"></span>
-          <span class="grow"></span>
-          <span class="who">Bạn: <b id="gName"></b> <button class="link" id="gRename" type="button">đổi tên</button></span>
-        </div>
-        <div class="legend">
-          <span><i></i>Trống</span><span><i class="t"></i>Đã có người</span><span><i class="m"></i>Chỗ của bạn</span><span><i class="z"></i>Khu vực / chỉ dẫn</span>
-          <span class="grow"></span>
-          <span class="zoom"><button class="btn sm" id="gOut" aria-label="Thu nhỏ">−</button><button class="btn sm" id="gIn" aria-label="Phóng to">+</button></span>
-        </div>
-        <div class="scroll" id="gScroll"><div class="grid" id="gGrid"></div></div>
-        <p class="hint">Vuốt ngang để xem hết sơ đồ · bấm − để thu nhỏ</p>
-      </div>
-    </section>
+      <div class="viewer-body" id="viewerBody"></div>
+    </div>
   </div>
 
-  <!-- Hộp thoại dùng chung -->
-  <dialog id="dlg"><div id="dlgBody"></div></dialog>
+  <!-- Hộp thoại phụ (form, xác nhận) -->
+  <dialog id="sheet" class="sheet hud">
+    <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+    <div id="sheetBody"></div>
+  </dialog>
+
+  <div class="peek hud" id="peek" aria-hidden="true"></div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- Thiếu cấu hình -->
+  <section id="nocfg" class="nocfg hud" hidden>
+    <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+    <p class="kicker">LỖI KẾT NỐI</p>
+    <h2>Chưa cấu hình Supabase</h2>
+    <p>Mở tệp <code>supabase-config.js</code>, điền <b>Project URL</b> và <b>Publishable key</b> (xem HUONG-DAN.md).</p>
+  </section>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-  <script src="config.js"></script>
-  <script src="seats.js"></script>
-  <script src="layout.js"></script>
+  <script src="supabase-config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
